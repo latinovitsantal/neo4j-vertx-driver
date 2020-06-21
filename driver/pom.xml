@@ -40,7 +40,6 @@
     <dependency>
         <groupId>io.vertx</groupId>
         <artifactId>vertx-core</artifactId>
-        <version>4.0.0-milestone5</version>
     </dependency>
 
 

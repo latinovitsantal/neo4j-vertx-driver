@@ -37,8 +37,14 @@
       <groupId>io.projectreactor</groupId>
       <artifactId>reactor-core</artifactId>
     </dependency>
+    <dependency>
+        <groupId>io.vertx</groupId>
+        <artifactId>vertx-core</artifactId>
+        <version>4.0.0-milestone5</version>
+    </dependency>
 
-    <!-- Optional dependencies -->
+
+      <!-- Optional dependencies -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
@@ -213,49 +219,6 @@
           -->
           <classesDirectory>${project.build.directory}/classes</classesDirectory>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <artifactSet>
-                <includes>
-                  <include>io.netty:*</include>
-                  <include>io.projectreactor:*</include>
-                </includes>
-              </artifactSet>
-              <relocations>
-                <relocation>
-                  <pattern>io.netty</pattern>
-                  <shadedPattern>org.neo4j.driver.internal.shaded.io.netty</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>reactor</pattern>
-                  <shadedPattern>org.neo4j.driver.internal.shaded.reactor</shadedPattern>
-                </relocation>
-              </relocations>
-              <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-              </transformers>
-              <filters>
-                <filter>
-                  <artifact>io.netty:*</artifact>
-                  <excludes>
-                    <exclude>META-INF/native-image/**</exclude>
-                  </excludes>
-                </filter>
-              </filters>
-              <shadeTestJar>true</shadeTestJar>
-              <createSourcesJar>true</createSourcesJar>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>

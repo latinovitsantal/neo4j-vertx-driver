@@ -20,6 +20,7 @@ package org.neo4j.driver;
 
 import java.net.URI;
 
+import io.vertx.core.Vertx;
 import org.neo4j.driver.exceptions.ServiceUnavailableException;
 import org.neo4j.driver.internal.DriverFactory;
 import org.neo4j.driver.internal.SecuritySettings;
@@ -37,6 +38,34 @@ import static org.neo4j.driver.internal.Scheme.NEO4J_URI_SCHEME;
 public class GraphDatabase
 {
     private static final String LOGGER_NAME = GraphDatabase.class.getSimpleName();
+
+
+    /**
+     * Return a driver for a Neo4j instance with custom configuration, using the given Vertx object's event loop.
+     *
+     * @param vertx the Vertx object which has the shared netty event loop
+     * @param uri the URL to a Neo4j instance
+     * @param authToken authentication to use, see {@link AuthTokens}
+     * @param config user defined configuration
+     * @return a new driver to the database instance specified by the URL
+     */
+    public static Driver driver(Vertx vertx, URI uri, AuthToken authToken, Config config) {
+        config = getOrDefault( config );
+        RoutingSettings routingSettings = config.routingSettings();
+        RetrySettings retrySettings = config.retrySettings();
+        SecuritySettings securitySettings = config.securitySettings();
+        SecurityPlan securityPlan = securitySettings.createSecurityPlan( uri.getScheme() );
+        return new DriverFactory().newInstance(
+                uri,
+                authToken,
+                routingSettings,
+                retrySettings,
+                config,
+                vertx.nettyEventLoopGroup(),
+                securityPlan
+        );
+    }
+
 
     /**
      * Return a driver for a Neo4j instance with the default configuration settings

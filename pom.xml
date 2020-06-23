@@ -270,14 +270,6 @@
           </includes>
         </configuration>
         <executions>
-          <execution>
-            <!-- always check license headers -->
-            <id>check-license-header</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
           <!-- also available: `mvn license:[cmd]` where cmd could be one of `check`, `format`, or `delete`-->
         </executions>
       </plugin>

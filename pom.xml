@@ -28,7 +28,7 @@
   <modules>
     <module>driver</module>
     <module>examples</module>
-    <module>neo4j-java-driver-coroutines</module>
+    <module>coroutines</module>
   </modules>
 
   <licenses>
